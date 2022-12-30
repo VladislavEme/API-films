@@ -1,0 +1,8 @@
+.authoriz__sign-in {
+  margin-bottom: 20px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+}
