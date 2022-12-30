@@ -17,7 +17,7 @@ const options = {
   url: 'https://moviesdatabase.p.rapidapi.com/titles',
   params: { list: 'top_rated_250', limit: '20', info: 'base_info' },
   headers: {
-    'X-RapidAPI-Key': '4c30333a2cmshcabeec35a8eeaf0p105d82jsn803dee6778ac',
+    'X-RapidAPI-Key': `${process.env.REACT_APP_API_KEY}`,
     'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com',
   },
 };
