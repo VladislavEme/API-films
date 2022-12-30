@@ -1,0 +1,45 @@
+.authoriz__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.authoriz__registration {
+  position: relative;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.registration__button {
+  display: inline;
+}
+
+.message {
+  position: absolute;
+  bottom: -20px;
+  color: red;
+  font-size: 12px;
+}
+
+.error {
+  position: absolute;
+  bottom: 23px;
+}
+
+.success {
+  color: green;
+  font-size: 20px;
+}
+
+input:valid {
+  border: 2px solid rgba(0, 128, 0, 0.5);
+  border-radius: 2px;
+}
+
+input:invalid {
+  border: 2px solid rgba(255, 0, 0, 0.5);
+  border-radius: 2px;
+}

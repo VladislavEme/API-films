@@ -1,7 +1,13 @@
 import React from 'react';
+import { AuthorizationButtons } from './components/AuthorizationButtons/AuthorizationButtons';
 
 function App() {
-  return <h1>Api-project</h1>;
+  return (
+    <>
+      <AuthorizationButtons />
+      <h1>Api-project</h1>
+    </>
+  );
 }
 
 export default App;
