@@ -1,8 +1,26 @@
 .authoriz__sign-in {
+  position: relative;
   margin-bottom: 20px;
   height: 100px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
+}
+
+.message {
+  position: absolute;
+  bottom: -20px;
+  color: red;
+  font-size: 12px;
+}
+
+.error {
+  position: absolute;
+  bottom: 23px;
+}
+
+.success {
+  color: green;
+  font-size: 20px;
 }
