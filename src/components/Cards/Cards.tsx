@@ -38,7 +38,9 @@ const Cards: React.FC = () => {
   return (
     <div className="content">
       <h2>Top 250</h2>
-      <div className="cards">{fetchedMovies && fetchedMovies.map((filmData) => <FilmItem key={filmData.id} {...filmData} />)}</div>
+      <div className="cards">
+        {fetchedMovies && fetchedMovies.map((filmData) => <FilmItem key={filmData.id} {...filmData} />)}
+      </div>
     </div>
   );
 };

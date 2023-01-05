@@ -1,10 +1,8 @@
 .authoriz__button-group {
-  width: 300px;
-  margin-bottom: 20px;
+  width: 250px;
   display: flex;
   justify-content: space-around;
   padding: 10px;
-  border: 1px solid #000;
 }
 
 input {
