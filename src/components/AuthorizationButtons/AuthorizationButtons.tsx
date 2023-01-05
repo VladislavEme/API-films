@@ -1,28 +1,21 @@
-import React, { useState } from 'react';
-import { SignUp } from '../SignUp/SignUp';
-import { SignIn } from '../SignIn/SignIn';
+import React from 'react';
 import './AuthorizationButtons.css';
 import type { RootState } from '../../redux/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoginName } from '../../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthorizationButtons: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isLogin = useSelector((state: RootState) => state.auth.loginName);
-
-  const [signInOpen, setSignInOpen] = useState<boolean>(false);
-  const [signUpOpen, setsignUpOpen] = useState<boolean>(false);
-
-  const loginUser = localStorage.getItem('login');
+  const loginUser = useSelector((state: RootState) => state.auth.loginName);
 
   const clickSignIn = () => {
-    setSignInOpen(true);
-    setsignUpOpen(false);
+    navigate('/signin');
   };
 
   const clicksignUp = () => {
-    setsignUpOpen(true);
-    setSignInOpen(false);
+    navigate('/signup');
   };
 
   const clickExit = () => {
@@ -45,8 +38,6 @@ export const AuthorizationButtons: React.FC = () => {
           </>
         )}
       </div>
-      {signInOpen && <SignIn />}
-      {signUpOpen && <SignUp />}
     </>
   );
 };

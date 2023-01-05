@@ -34,7 +34,7 @@ export const SignIn: React.FC = () => {
 
     setError('');
 
-    const user = usersArr.find(
+    const user = usersArr?.find(
       (item: UsersType) => (item.name == email || item.email == email) && item.password == password
     );
 
