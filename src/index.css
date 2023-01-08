@@ -7,3 +7,12 @@
 body {
   font-family: 'DM Sans', sans-serif;
 }
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

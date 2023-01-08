@@ -1,8 +1,16 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './style.css';
 import type { FilmData } from '../Cards/Cards';
 
-const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear, genres, ratingsSummary }) => {
+const FilmItem: React.FC<FilmData> = ({
+  titleText,
+  primaryImage,
+  id,
+  releaseYear,
+  genres,
+  ratingsSummary,
+}) => {
   const [color, setColor] = useState('none');
 
   const changeColor = () => {
@@ -16,12 +24,14 @@ const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear
   return (
     <div key={id} className="card">
       {primaryImage && (
-        <img
-          style={{
-            backgroundImage: `url(${primaryImage.url})`,
-          }}
-          alt=""
-        />
+        <Link to={`/movie/${id}`}>
+          <div
+            className="card__img"
+            style={{
+              backgroundImage: `url(${primaryImage.url})`,
+            }}
+          ></div>
+        </Link>
       )}
       <h3 className="card__title">{titleText.text}</h3>
       <span>
@@ -40,7 +50,8 @@ const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear
         stroke="#FFD700"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1.5">
+        strokeWidth="1.5"
+      >
         <polygon points="3.75 1.75,12.25 1.75,12.25 14.25,8 9.75,3.75 14.25" />
       </svg>
       <div className="rate">
@@ -52,7 +63,8 @@ const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear
             viewBox="0 0 128 128"
             aria-hidden="true"
             role="img"
-            preserveAspectRatio="xMidYMid meet">
+            preserveAspectRatio="xMidYMid meet"
+          >
             <path
               d="M68.05 7.23l13.46 30.7a7.047 7.047 0 0 0 5.82 4.19l32.79 2.94c3.71.54 5.19 5.09 2.5 7.71l-24.7 20.75c-2 1.68-2.91 4.32-2.36 6.87l7.18 33.61c.63 3.69-3.24 6.51-6.56 4.76L67.56 102a7.033 7.033 0 0 0-7.12 0l-28.62 16.75c-3.31 1.74-7.19-1.07-6.56-4.76l7.18-33.61c.54-2.55-.36-5.19-2.36-6.87L5.37 52.78c-2.68-2.61-1.2-7.17 2.5-7.71l32.79-2.94a7.047 7.047 0 0 0 5.82-4.19l13.46-30.7c1.67-3.36 6.45-3.36 8.11-.01z"
               fill="#fdd835"
