@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import FilmItem from '../FilmItem/FilmItem';
 import './style.css';
-import { Search } from '../Search/Search';
 
 export interface FilmData {
   titleText: { text: string };
@@ -32,15 +31,15 @@ const Cards: React.FC = () => {
       const { results } = data;
       setFetchedMovies(results);
     };
-
     getData();
   }, []);
 
   return (
-    <div className="content">
-      <Search />
+    <div className='content'>
       <h2>Top 250</h2>
-      <div className="cards">{fetchedMovies && fetchedMovies.map((filmData) => <FilmItem key={filmData.id} {...filmData} />)}</div>
+      <div className='cards'>
+        {fetchedMovies && fetchedMovies.map((filmData) => <FilmItem key={filmData.id} {...filmData} />)}
+      </div>
     </div>
   );
 };
