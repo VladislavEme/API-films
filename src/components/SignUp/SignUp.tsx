@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
 import './SignUp.css';
 
-type UsersType = {
+export type UsersType = {
   name: string;
   email: string;
   password: string;
+  favorites: [];
 };
 
 export const SignUp: React.FC = () => {
@@ -40,6 +41,7 @@ export const SignUp: React.FC = () => {
       name: name,
       email: email,
       password: password,
+      favorites: [],
     };
 
     const usersString: string | null = localStorage.getItem('users');
@@ -78,30 +80,12 @@ export const SignUp: React.FC = () => {
             <input type="email" maxLength={40} placeholder="E-mail*" required onChange={changeEmail} />
           </label>
           <label>
-            <input
-              type="password"
-              minLength={8}
-              maxLength={20}
-              placeholder="Password*"
-              required
-              onChange={changePassword}
-            />
+            <input type="password" minLength={8} maxLength={20} placeholder="Password*" required onChange={changePassword} />
           </label>
           <label>
-            <input
-              type="password"
-              minLength={8}
-              maxLength={20}
-              placeholder="Repeat password*"
-              required
-              onChange={changeRepeatPassword}
-            />
+            <input type="password" minLength={8} maxLength={20} placeholder="Repeat password*" required onChange={changeRepeatPassword} />
           </label>
-          {repeatPassword && (
-            <span className="message error">
-              {testPassword ? '' : 'Пароль должен иметь не менее 8 знаков и совпадать'}
-            </span>
-          )}
+          {repeatPassword && <span className="message error">{testPassword ? '' : 'Пароль должен иметь не менее 8 знаков и совпадать'}</span>}
           <button className="registration__button" type="submit" disabled={testPassword ? false : true}>
             Регистрация
           </button>
