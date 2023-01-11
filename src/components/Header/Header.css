@@ -6,10 +6,19 @@
   margin-bottom: 30px;
 }
 
-.logo {
+.header__logo {
   cursor: pointer;
 }
 
-.logo:hover {
+.header__logo:hover {
   background-color: #ddd;
+}
+
+.header__search {
+  padding: 5px;
+  border: 1px solid #000;
+}
+
+.header__search:hover {
+  background-color: #aaa;
 }

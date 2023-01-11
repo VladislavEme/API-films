@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import FilmItem from '../FilmItem/FilmItem';
-import { Search } from '../Search/Search';
 import loader from '../../assets/loader.svg';
 import './style.css';
 
@@ -43,7 +42,6 @@ const Cards: React.FC = () => {
         console.log('error', error);
       }
     };
-
     getData();
   }, [page]);
 
@@ -52,8 +50,7 @@ const Cards: React.FC = () => {
   }
 
   return (
-    <div className="content">
-      <Search />
+    <div className='content'>
       <h2>Top 250</h2>
       <div className="cards">{fetchedMovies && fetchedMovies.map((filmData) => <FilmItem key={filmData.id} {...filmData} />)}</div>
       <div className="pagination">
