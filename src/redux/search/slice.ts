@@ -1,20 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { FilmData } from '../components/Cards/Cards';
-
-export interface SearchState {
-  isLoading: boolean;
-  clickSubmitForm: boolean;
-  isQuestion: boolean;
-  fetchedMovies: FilmData[];
-  exact: boolean;
-  searchValue: string;
-  year: string;
-  startYear: number | string;
-  endYear: number | string;
-  titleType: string;
-  searchParse: any;
-}
+import { FilmData } from '../../components/Cards/Cards';
+import { SearchParse, SearchState } from './types';
 
 const initialState: SearchState = {
   isLoading: false,
@@ -27,21 +14,19 @@ const initialState: SearchState = {
   startYear: '',
   endYear: '',
   titleType: '',
-  searchParse: null,
 };
 
 export const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    setSearchParse: (state, action: PayloadAction<any>) => {
+    setSearchParse: (state, action: PayloadAction<SearchParse>) => {
       state.searchValue = action.payload.searchValue;
       state.exact = action.payload.exact === 'true';
       state.titleType = action.payload.titleType;
       state.year = action.payload.year;
       state.startYear = action.payload.startYear;
       state.endYear = action.payload.endYear;
-      state.searchParse = action.payload;
     },
     setIsLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
