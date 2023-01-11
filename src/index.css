@@ -16,3 +16,27 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.pagination button {
+  background: none;
+  border: 1px solid #000;
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.pagination__arrow {
+  cursor: pointer;
+}
+
+.pagination__arrow:hover {
+  background: rgba(0, 0, 0, 0.1);
+}

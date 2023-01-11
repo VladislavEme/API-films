@@ -8,7 +8,10 @@ import user from '../../assets/user_not_found.jpeg';
 import convertSecondsToMinutes from '../../utils/convertSecondsToMinutes';
 import numberWithSpaces from '../../utils/numberWithSpaces';
 import star from '../../assets/star.svg';
-import favorite from '../../assets/favorite.svg';
+import loader from '../../assets/loader.svg';
+import { store } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { addFavorite, deleteFavorite } from '../../redux/favoriteSlice';
 
 interface BaseInfo {
   plot: { plotText: { plainText: string } };
@@ -47,9 +50,11 @@ const FullMovie: React.FC = () => {
   const [movieCastInfo, setMovieCastInfo] = useState<Array<CastInfo>>([]);
   const [movieCrewInfo, setMovieCrewInfo] = useState<CrewInfo>();
   const [movieAwardsInfo, setMovieAwardsInfo] = useState<AwardsInfo>();
+  const [color, setColor] = useState('none');
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const baseInfoOptions = {
@@ -139,15 +144,31 @@ const FullMovie: React.FC = () => {
   }, [navigate, id]);
 
   if (!movieBaseInfo || !movieCastInfo || !movieCrewInfo || !movieAwardsInfo) {
-    return <>'Загрузка...'</>;
+    return (
+      <>
+        <img className="testing" src={loader} alt="" />
+      </>
+    );
   }
 
   const { plot, titleText, releaseYear, ratingsSummary, primaryImage, runtime, genres } = movieBaseInfo;
   const { nominations, wins, prestigiousAwardSummary } = movieAwardsInfo;
+
+
+  const clickBookmarks = () => {
+    if (color === 'none') {
+      setColor('#FFD700');
+      dispatch(addFavorite(id));
+    } else {
+      setColor('none');
+      dispatch(deleteFavorite(id));
+    }
+  };
+
   return (
-    <div className='container'>
-      <div className='left-side'>
-        {primaryImage ? (
+    <div className="container">
+      <div className="left-side">
+         {primaryImage ? (
           <div
             className='movie__img'
             style={{
@@ -157,8 +178,21 @@ const FullMovie: React.FC = () => {
         ) : (
           <div className='movie__img'></div>
         )}
-        <button className='favorite__btn'>
-          <img src={favorite} alt='' />
+        <button className="favorite__btn" onClick={clickBookmarks}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24px"
+            height="24px"
+            viewBox="0 0 16 16"
+            version="1.1"
+            fill={store.getState().favorite.filter((val) => val === id).length === 1 ? '#FFD700' : 'none'}
+            stroke="#FFD700"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+          >
+            <polygon points="3.75 1.75,12.25 1.75,12.25 14.25,8 9.75,3.75 14.25"></polygon>
+          </svg>
           Add to favorites
         </button>
         <ul className='genres'>

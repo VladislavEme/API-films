@@ -1,33 +1,36 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { addFavorite, deleteFavorite } from '../../redux/favoriteSlice';
+import { useDispatch } from 'react-redux';
 import './style.css';
-import type { FilmData } from '../Cards/Cards';
+import poster404 from '../../assets/poster404.png';
+import { FilmData } from '../Cards/Cards';
+import { store } from '../../redux/store';
 
 const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear, genres, ratingsSummary }) => {
   const [color, setColor] = useState('none');
-
-  const changeColor = () => {
-    color === 'none' ? setColor('#FFD700') : setColor('none');
-  };
+  const dispatch = useDispatch();
 
   const clickBookmarks = () => {
-    changeColor();
+    if (color === 'none') {
+      setColor('#FFD700');
+      dispatch(addFavorite(id));
+    } else {
+      setColor('none');
+      dispatch(deleteFavorite(id));
+    }
   };
 
   return (
     <div key={id} className='card'>
       {
         <Link to={`/movie/${id}`}>
-          {primaryImage ? (
-            <div
-              className='card__img'
-              style={{
-                backgroundImage: `url(${primaryImage?.url})`,
-              }}
-            ></div>
-          ) : (
-            <div className='card__img'></div>
-          )}
+          <div
+            className="card__img"
+            style={{
+              backgroundImage: `url(${primaryImage.url ? primaryImage.url : poster404})`,
+            }}
+          ></div>
         </Link>
       }
       <h3 className='card__title'>{titleText.text}</h3>
@@ -42,12 +45,12 @@ const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear
         viewBox='0 0 16 16'
         version='1.1'
         onClick={clickBookmarks}
-        fill={color}
-        className='bookmarks'
-        stroke='#FFD700'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        strokeWidth='1.5'
+        fill={store.getState().favorite.filter((val) => val === id).length === 1 ? '#FFD700' : 'none'}
+        className="bookmarks"
+        stroke="#FFD700"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
       >
         <polygon points='3.75 1.75,12.25 1.75,12.25 14.25,8 9.75,3.75 14.25' />
       </svg>
