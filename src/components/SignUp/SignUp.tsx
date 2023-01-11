@@ -6,6 +6,7 @@ export type UsersType = {
   email: string;
   password: string;
   favorites: [];
+  history: [];
 };
 
 export const SignUp: React.FC = () => {
@@ -42,6 +43,7 @@ export const SignUp: React.FC = () => {
       email: email,
       password: password,
       favorites: [],
+      history: [],
     };
 
     const usersString: string | null = localStorage.getItem('users');
@@ -70,29 +72,47 @@ export const SignUp: React.FC = () => {
   };
 
   return (
-    <form className="authoriz__form" onSubmit={onSubmitSignUp}>
+    <form className='authoriz__form' onSubmit={onSubmitSignUp}>
       {!success ? (
-        <div className="authoriz__registration">
+        <div className='authoriz__registration'>
           <label>
-            <input type="text" maxLength={20} minLength={3} placeholder="Nickname*" required onChange={changeName} />
+            <input type='text' maxLength={20} minLength={3} placeholder='Nickname*' required onChange={changeName} />
           </label>
           <label>
-            <input type="email" maxLength={40} placeholder="E-mail*" required onChange={changeEmail} />
+            <input type='email' maxLength={40} placeholder='E-mail*' required onChange={changeEmail} />
           </label>
           <label>
-            <input type="password" minLength={8} maxLength={20} placeholder="Password*" required onChange={changePassword} />
+            <input
+              type='password'
+              minLength={8}
+              maxLength={20}
+              placeholder='Password*'
+              required
+              onChange={changePassword}
+            />
           </label>
           <label>
-            <input type="password" minLength={8} maxLength={20} placeholder="Repeat password*" required onChange={changeRepeatPassword} />
+            <input
+              type='password'
+              minLength={8}
+              maxLength={20}
+              placeholder='Repeat password*'
+              required
+              onChange={changeRepeatPassword}
+            />
           </label>
-          {repeatPassword && <span className="message error">{testPassword ? '' : 'Пароль должен иметь не менее 8 знаков и совпадать'}</span>}
-          <button className="registration__button" type="submit" disabled={testPassword ? false : true}>
+          {repeatPassword && (
+            <span className='message error'>
+              {testPassword ? '' : 'Пароль должен иметь не менее 8 знаков и совпадать'}
+            </span>
+          )}
+          <button className='registration__button' type='submit' disabled={testPassword ? false : true}>
             Регистрация
           </button>
-          {error && <span className="message">{error}</span>}
+          {error && <span className='message'>{error}</span>}
         </div>
       ) : (
-        <span className="success">Регистрация прошла успешно!</span>
+        <span className='success'>Регистрация прошла успешно!</span>
       )}
     </form>
   );
