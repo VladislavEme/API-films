@@ -18,6 +18,7 @@ import {
   setEndYear,
   setTitleType,
   setSearchParse,
+  setResetSearch,
 } from '../../redux/search/slice';
 import qs from 'qs';
 
@@ -49,6 +50,7 @@ export const Search = () => {
       }
     };
     testFunc();
+    buttonSearch.current.click();
   }, []);
 
   const changeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,20 +82,47 @@ export const Search = () => {
   };
 
   const clickClearParams = () => {
-    dispatch(setSearchValue(''));
-    dispatch(setYear(''));
-    dispatch(setStartYear(''));
-    dispatch(setEndYear(''));
-    dispatch(setTitleType(''));
-    dispatch(setExact(false));
-    dispatch(setFetchedMovies([]));
-    dispatch(setClickSubmitForm(false));
-    dispatch(setIsLoading(false));
+    // dispatch(setSearchValue(''));
+    // dispatch(setYear(''));
+    // dispatch(setStartYear(''));
+    // dispatch(setEndYear(''));
+    // dispatch(setTitleType(''));
+    // dispatch(setExact(false));
+    // dispatch(setFetchedMovies([]));
+    // dispatch(setClickSubmitForm(false));
+    // dispatch(setIsLoading(false));
+    dispatch(setResetSearch());
     navigate('/search');
   };
 
   const clickQuestion = () => {
     dispatch(setIsQuestion(!isQuestion));
+  };
+
+  const recordHistory = (searchUrl: string) => {
+    const usersString = localStorage.getItem('users');
+    const loginName = localStorage.getItem('login');
+
+    if (loginName) {
+      const users = usersString && JSON.parse(usersString);
+      const user = users.find((item: any) => item.name === loginName);
+      const searchUrlParse = qs.parse(searchUrl);
+
+      console.log(user.history[0]);
+      const newHistory = user.history.find(
+        (item: SearchParse) =>
+          item.searchValue === searchUrlParse.searchValue &&
+          item.exact === searchUrlParse.exact &&
+          item.titleType === searchUrlParse.titleType &&
+          item.year === searchUrlParse.year &&
+          item.startYear === searchUrlParse.startYear &&
+          item.endYear === searchUrlParse.endYear
+      );
+
+      if (!newHistory) user.history.push(searchUrlParse);
+
+      localStorage.setItem('users', JSON.stringify(users));
+    }
   };
 
   const onSubmitSearch = (e: React.SyntheticEvent) => {
@@ -134,6 +163,7 @@ export const Search = () => {
       endYear,
     });
     navigate(`/search/title/${searchUrl}`);
+    recordHistory(searchUrl);
   };
 
   return (
@@ -158,7 +188,7 @@ export const Search = () => {
           <div className='search__block'>
             <label className='search__label-checkbox'>
               <input className='search__input-checkbox' type='checkbox' checked={exact} onChange={changeCheckbox} />
-              Точное название
+              Точный поиск
             </label>
             <span className='search__question' onClick={() => clickQuestion()}>
               ?

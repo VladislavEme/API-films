@@ -58,6 +58,18 @@ export const searchSlice = createSlice({
     setTitleType: (state, action: PayloadAction<string>) => {
       state.titleType = action.payload;
     },
+
+    setResetSearch: (state) => {
+      state.searchValue = '';
+      state.year = '';
+      state.startYear = '';
+      state.endYear = '';
+      state.titleType = '';
+      state.exact = false;
+      state.fetchedMovies = [];
+      state.clickSubmitForm = false;
+      state.isLoading = false;
+    },
   },
 });
 
@@ -73,5 +85,6 @@ export const {
   setEndYear,
   setTitleType,
   setSearchParse,
+  setResetSearch,
 } = searchSlice.actions;
 export default searchSlice.reducer;
