@@ -26,9 +26,9 @@ const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear
       {
         <Link to={`/movie/${id}`}>
           <div
-            className="card__img"
+            className='card__img'
             style={{
-              backgroundImage: `url(${primaryImage.url ? primaryImage.url : poster404})`,
+              backgroundImage: `url(${primaryImage?.url ? primaryImage.url : poster404})`,
             }}
           ></div>
         </Link>
@@ -46,11 +46,11 @@ const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear
         version='1.1'
         onClick={clickBookmarks}
         fill={store.getState().favorite.filter((val) => val === id).length === 1 ? '#FFD700' : 'none'}
-        className="bookmarks"
-        stroke="#FFD700"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
+        className='bookmarks'
+        stroke='#FFD700'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='1.5'
       >
         <polygon points='3.75 1.75,12.25 1.75,12.25 14.25,8 9.75,3.75 14.25' />
       </svg>
