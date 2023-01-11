@@ -15,3 +15,10 @@ h2 {
   gap: 80px;
   flex-wrap: wrap;
 }
+
+.testing {
+  margin: auto;
+  background-color: rgb(255, 255, 255);
+  display: block;
+  shape-rendering: auto;
+}
