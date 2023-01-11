@@ -5,6 +5,7 @@ import FilmItem from '../FilmItem/FilmItem';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { SearchParse } from '../../redux/search/types';
 import {
   setIsLoading,
   setClickSubmitForm,
@@ -17,7 +18,7 @@ import {
   setEndYear,
   setTitleType,
   setSearchParse,
-} from '../../redux/searchSlice';
+} from '../../redux/search/slice';
 import qs from 'qs';
 
 export const Search = () => {
@@ -43,7 +44,7 @@ export const Search = () => {
   React.useEffect(() => {
     const testFunc = async () => {
       if (typeof search !== 'undefined') {
-        await dispatch(setSearchParse(qs.parse(search)));
+        await dispatch(setSearchParse(qs.parse(search) as unknown as SearchParse));
         buttonSearch.current.click();
       }
     };
