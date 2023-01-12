@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -55,6 +55,10 @@ const FullMovie: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleFavorite = useCallback(() => {
+    if (store.getState().favorite.filter((val) => val === id).length === 1) setColor('#FFD700');
+  }, [id]);
 
   useEffect(() => {
     const baseInfoOptions = {
@@ -141,7 +145,8 @@ const FullMovie: React.FC = () => {
     getCastData();
     getCrewData();
     getAwardsData();
-  }, [navigate, id]);
+    handleFavorite();
+  }, [navigate, id, handleFavorite]);
 
   if (!movieBaseInfo || !movieCastInfo || !movieCrewInfo || !movieAwardsInfo) {
     return (
@@ -154,12 +159,12 @@ const FullMovie: React.FC = () => {
   const { plot, titleText, releaseYear, ratingsSummary, primaryImage, runtime, genres } = movieBaseInfo;
   const { nominations, wins, prestigiousAwardSummary } = movieAwardsInfo;
 
-
   const clickBookmarks = () => {
     if (color === 'none') {
       setColor('#FFD700');
       dispatch(addFavorite(id));
-    } else {
+    }
+    if (color !== 'none') {
       setColor('none');
       dispatch(deleteFavorite(id));
     }
@@ -168,15 +173,15 @@ const FullMovie: React.FC = () => {
   return (
     <div className="container">
       <div className="left-side">
-         {primaryImage ? (
+        {primaryImage ? (
           <div
-            className='movie__img'
+            className="movie__img"
             style={{
               backgroundImage: `url(${primaryImage.url})`,
             }}
           ></div>
         ) : (
-          <div className='movie__img'></div>
+          <div className="movie__img"></div>
         )}
         <button className="favorite__btn" onClick={clickBookmarks}>
           <svg
@@ -195,73 +200,73 @@ const FullMovie: React.FC = () => {
           </svg>
           Add to favorites
         </button>
-        <ul className='genres'>
+        <ul className="genres">
           {genres &&
             genres.genres.map((genre) => {
               return (
-                <li className='genre' key={genre.id}>
+                <li className="genre" key={genre.id}>
                   {genre.text}
                 </li>
               );
             })}
         </ul>
       </div>
-      <div className='movie'>
-        <div className='movie__header'>
-          <h1 className='title'>
+      <div className="movie">
+        <div className="movie__header">
+          <h1 className="title">
             {titleText.text} ({releaseYear?.year})
           </h1>
-          {runtime && <span className='time'>{convertSecondsToMinutes(runtime.seconds)}</span>}
+          {runtime && <span className="time">{convertSecondsToMinutes(runtime.seconds)}</span>}
         </div>
-        <div className='movie__main'>
+        <div className="movie__main">
           {plot && (
-            <div className='plot'>
+            <div className="plot">
               <h4>Plot</h4>
-              <p className='plot__text'>{plot.plotText?.plainText}</p>
+              <p className="plot__text">{plot.plotText?.plainText}</p>
             </div>
           )}
-          <div className='director'>
+          <div className="director">
             <h4>Director</h4>
-            <ul className='director__list'>
+            <ul className="director__list">
               {movieCrewInfo.directors &&
                 movieCrewInfo.directors.map((crewData: any) => {
                   return (
-                    <li className='director__name' key={crewData.credits[0]?.name.id}>
+                    <li className="director__name" key={crewData.credits[0]?.name.id}>
                       {crewData.credits[0]?.name.nameText.text}
                     </li>
                   );
                 })}
             </ul>
           </div>
-          <div className='writers'>
+          <div className="writers">
             <h4>Writers</h4>
-            <ul className='writers__list'>
+            <ul className="writers__list">
               {movieCrewInfo.writers[0] &&
                 movieCrewInfo.writers[0].credits.map((crewData: any) => {
                   return (
-                    <li className='writers__name' key={crewData.name.id}>
+                    <li className="writers__name" key={crewData.name.id}>
                       {crewData.name.nameText.text}
                     </li>
                   );
                 })}
             </ul>
           </div>
-          <div className='cast'>
+          <div className="cast">
             <h4>Cast</h4>
-            <ul className='cast__list'>
+            <ul className="cast__list">
               {movieCastInfo &&
                 movieCastInfo.map(({ node }: any) => {
                   return (
-                    <li className='cast__actor' key={node.name.id}>
+                    <li className="cast__actor" key={node.name.id}>
                       <div
-                        className='cast__actor__img'
+                        className="cast__actor__img"
                         style={{
                           backgroundImage: `url(${node.name.primaryImage ? node.name.primaryImage.url : `${user}`})`,
                         }}
                       ></div>
-                      <p className='cast__actor__name'>
+                      <p className="cast__actor__name">
                         {node.name.nameText.text} <br />
-                        {node.characters && <span className='cast__actor__role'>{node.characters[0].name}</span>}
+                        {node.characters && <span className="cast__actor__role">{node.characters[0].name}</span>}
                       </p>
                     </li>
                   );
@@ -270,43 +275,43 @@ const FullMovie: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className='right-side'>
+      <div className="right-side">
         {ratingsSummary.aggregateRating && (
-          <div className='movie__rating'>
-            <span className='movie__rating__points'>
-              <span className='movie__rating__points--big'>
-                <img src={star} alt='star' />
+          <div className="movie__rating">
+            <span className="movie__rating__points">
+              <span className="movie__rating__points--big">
+                <img src={star} alt="star" />
                 {ratingsSummary.aggregateRating}
               </span>
               /10
             </span>
-            <span className='movie__rating__ratings'>{numberWithSpaces(ratingsSummary.voteCount)} ratings</span>
+            <span className="movie__rating__ratings">{numberWithSpaces(ratingsSummary.voteCount)} ratings</span>
           </div>
         )}
-        <div className='movie__awards'>
+        <div className="movie__awards">
           <h4>Awards</h4>
-          <div className='movie__awards__cards'>
+          <div className="movie__awards__cards">
             {wins.total && (
-              <div className='movie__awards__card'>
+              <div className="movie__awards__card">
                 <span>Wins</span>
-                <span className='movie__awards__card__count'>
+                <span className="movie__awards__card__count">
                   <b>{wins.total}</b>
                 </span>
               </div>
             )}
             {nominations.total && (
-              <div className='movie__awards__card'>
+              <div className="movie__awards__card">
                 <span>Nominations</span>
-                <span className='movie__awards__card__count'>
+                <span className="movie__awards__card__count">
                   <b>{nominations.total}</b>
                 </span>
               </div>
             )}
 
             {prestigiousAwardSummary?.award && prestigiousAwardSummary.wins > 0 && (
-              <div className='movie__awards__card movie__awards__card--oscar'>
-                <img src={oscar} alt='' width={120} height={120} />
-                <span className='movie__awards__card__count'>
+              <div className="movie__awards__card movie__awards__card--oscar">
+                <img src={oscar} alt="" width={120} height={120} />
+                <span className="movie__awards__card__count">
                   <b>{prestigiousAwardSummary.wins}</b>
                 </span>
               </div>
