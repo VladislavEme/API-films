@@ -13,7 +13,7 @@ import { store } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 import { addFavorite, deleteFavorite } from '../../redux/favoriteSlice';
 
-interface BaseInfo {
+export interface BaseInfo {
   plot: { plotText: { plainText: string } };
   titleText: { text: string };
   releaseYear: { year: string | number };
@@ -56,7 +56,7 @@ const FullMovie: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleFavorite = useCallback(() => {
+  const checkColorState = useCallback(() => {
     if (store.getState().favorite.filter((val) => val === id).length === 1) setColor('#FFD700');
   }, [id]);
 
@@ -145,8 +145,8 @@ const FullMovie: React.FC = () => {
     getCastData();
     getCrewData();
     getAwardsData();
-    handleFavorite();
-  }, [navigate, id, handleFavorite]);
+    checkColorState();
+  }, [navigate, checkColorState, id]);
 
   if (!movieBaseInfo || !movieCastInfo || !movieCrewInfo || !movieAwardsInfo) {
     return (
@@ -162,11 +162,11 @@ const FullMovie: React.FC = () => {
   const clickBookmarks = () => {
     if (color === 'none') {
       setColor('#FFD700');
-      dispatch(addFavorite(id));
+      id && dispatch(addFavorite(id));
     }
     if (color !== 'none') {
       setColor('none');
-      dispatch(deleteFavorite(id));
+      id && dispatch(deleteFavorite(id));
     }
   };
 

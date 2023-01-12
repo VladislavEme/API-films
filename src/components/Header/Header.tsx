@@ -16,8 +16,8 @@ export const Header: React.FC = () => {
     dispatch(setResetSearch());
   };
   return (
-    <div className='header'>
-      <Link to='/' className='header__logo'>
+    <div className="header">
+      <Link to="/" className="header__logo">
         LOGO
       </Link>
       {pathname.substring(0, 7) !== '/search' ? (
@@ -25,14 +25,19 @@ export const Header: React.FC = () => {
           onClick={() => {
             clickSearch();
           }}
-          to='/search'
-          className='header__search'
+          to="/search"
+          className="header__search"
         >
           Глобальный поиск по названию
         </Link>
       ) : (
-        <Link to={isLogin ? '/history' : '/signin'} className='header__search'>
+        <Link to={isLogin ? '/history' : '/signin'} className="header__search">
           История поиска
+        </Link>
+      )}
+      {isLogin && (
+        <Link to={'/favorites'} className={'my-favorites'}>
+          My favorites
         </Link>
       )}
       <AuthorizationButtons />

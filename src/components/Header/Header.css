@@ -18,11 +18,13 @@
   background-color: #ddd;
 }
 
-.header__search {
+.header__search,
+.my-favorites {
   padding: 5px;
   border: 1px solid #000;
 }
 
-.header__search:hover {
+.header__search:hover,
+.my-favorites:hover {
   background-color: #aaa;
 }

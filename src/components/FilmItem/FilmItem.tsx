@@ -1,17 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { addFavorite, deleteFavorite } from '../../redux/favoriteSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './style.css';
 import poster404 from '../../assets/poster404.png';
 import { FilmData } from '../Cards/Cards';
-import { store } from '../../redux/store';
+import { RootState, store } from '../../redux/store';
 
 const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear, genres, ratingsSummary }) => {
   const [color, setColor] = useState('none');
-  const dispatch = useDispatch();
 
-  const clickBookmarks = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLogin = useSelector((state: RootState) => state.auth.loginName);
+
+  const handleBookmarks = () => {
     if (color === 'none') {
       setColor('#FFD700');
       dispatch(addFavorite(id));
@@ -21,16 +24,16 @@ const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear
     }
   };
 
-  const handleFavorite = useCallback(() => {
+  const checkColorState = useCallback(() => {
     if (store.getState().favorite.filter((val) => val === id).length === 1) setColor('#FFD700');
   }, [id]);
 
   useEffect(() => {
-    handleFavorite();
-  }, [handleFavorite]);
+    checkColorState();
+  }, [checkColorState]);
 
   return (
-    <div key={id} className="card">
+    <div className="card">
       {
         <Link to={`/movie/${id}`}>
           <div
@@ -46,22 +49,44 @@ const FilmItem: React.FC<FilmData> = ({ titleText, primaryImage, id, releaseYear
         {releaseYear ? releaseYear?.year : 'Year unknown'}, {genres ? genres.genres[0]?.text : 'Genres unknow'}
       </span>
 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24px"
-        height="24px"
-        viewBox="0 0 16 16"
-        version="1.1"
-        onClick={clickBookmarks}
-        fill={store.getState().favorite.filter((val) => val === id).length === 1 ? '#FFD700' : 'none'}
-        className="bookmarks"
-        stroke="#FFD700"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-      >
-        <polygon points="3.75 1.75,12.25 1.75,12.25 14.25,8 9.75,3.75 14.25" />
-      </svg>
+      {isLogin ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24px"
+          height="24px"
+          viewBox="0 0 16 16"
+          version="1.1"
+          onClick={handleBookmarks}
+          fill={store.getState().favorite.filter((val) => val === id).length === 1 ? '#FFD700' : 'none'}
+          className="bookmarks"
+          stroke="#FFD700"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+        >
+          <polygon points="3.75 1.75,12.25 1.75,12.25 14.25,8 9.75,3.75 14.25" />
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24px"
+          height="24px"
+          viewBox="0 0 16 16"
+          version="1.1"
+          onClick={() => {
+            alert('Login first');
+            navigate(`/signin`);
+          }}
+          fill={store.getState().favorite.filter((val) => val === id).length === 1 ? '#FFD700' : 'none'}
+          className="bookmarks"
+          stroke="#FFD700"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+        >
+          <polygon points="3.75 1.75,12.25 1.75,12.25 14.25,8 9.75,3.75 14.25" />
+        </svg>
+      )}
       {ratingsSummary.aggregateRating && (
         <div className="rate">
           <span>

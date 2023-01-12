@@ -40,19 +40,19 @@ export const HistorySearch: React.FC = () => {
   return (
     <>
       <button
-        className='history__button-clear'
+        className="history__button-clear"
         onClick={() => {
           clickClearHistory();
         }}
       >
         Очистить историю поиска
       </button>
-      <div className='container history__container'>
+      <div className="container history__container">
         {!history?.length && <h2>История поиска пуста :(</h2>}
-        <ol className='history__list'>
+        <ol className="history__list">
           {history &&
             history.map((item: any, i) => (
-              <li className='history__item' onClick={() => clickHistoryItem(i)} key={i}>
+              <li className="history__item" onClick={() => clickHistoryItem(i)} key={i}>
                 {' '}
                 <p>
                   <b>Уникальный запрос №{i + 1}</b>
